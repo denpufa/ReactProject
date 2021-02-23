@@ -1,0 +1,15 @@
+.app {
+    
+    padding: 15px 15px 15px 15px;
+    
+}
+
+.app .cards{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    list-style-type: none;
+
+
+}
+    

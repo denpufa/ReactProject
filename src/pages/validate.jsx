@@ -8,8 +8,12 @@ import axios from 'axios'
 
 export default (args) => {
     let history = useHistory()
+    
+    const [toSend,setToSend] = useState([])
+    
     function AllCards() {    
-        const [date, setDate] = useState([''])
+        const [date, setDate] = useState([])
+        
         useEffect(()=>{
             
             let response = axios.get('http://localhost:8080/img/false')
@@ -19,22 +23,32 @@ export default (args) => {
             })           
         },[])
         return ( <> 
-                {date.map(i => <Card></Card>)}
+                {date.map(i => 
+                <>
+                <Card key={i.link} src={i.link}></Card>
+                <input type="checkbox"  onChange={()=>{setToSend(toSend+[i.link])}}/>
+                </>
+                )}
                 </>
             );
     }
         
 
     
-        function firstClick() {
+    function firstClick() {
         history.push("/")
     }
     function secondClick() {
         history.push("/upload")
     }
-    function sendImgs() {
+    function validateImg() {
+        axios.post('http://localhost:8080/'
+            
+        )
 
     }
+
+   
     
     
 
@@ -42,7 +56,7 @@ export default (args) => {
         <Head show="to validate a picture click on check box above,after click on finish button" firstOn={firstClick} firstButton="Home" secondButton="upload" secondOn={secondClick}></Head>
         <div className="cards">
             <form>
-                <button className="Button" onChange={sendImgs}>Finish</button>
+                <button className="Button" onClick={validateImg}>Finish</button>
                 {AllCards()}
             </form>
 

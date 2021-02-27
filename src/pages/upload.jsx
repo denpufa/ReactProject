@@ -9,7 +9,6 @@ import axios from 'axios'
 export default (args) => { 
     
     let history = useHistory()
-    let isValid = 'false'
     
     function firstClick(){
         history.push('/')
@@ -17,24 +16,6 @@ export default (args) => {
     function secondClick(){
         history.push('/validate')
     }
-    
-    function criarKey() {
-        var resultado = '';
-        var caracs       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        var caracs_len = caracs.length;
-        for ( var i = 0; i < 5; i++ ) {
-           resultado += caracs.charAt(Math.floor(Math.random() * caracs_len));
-        }
-        return resultado;
-     }
-     function setTrue(){
-        if(isValid == 'false'){    
-            isValid = 'true'
-        }    
-        else{
-            isValid = 'false'
-        }
-     }
      
     function enviarImagem(){
         var file = document.getElementById("myfile").files
@@ -47,10 +28,9 @@ export default (args) => {
         }
         var picture = new FormData()
         picture.append("image",picture)
-        let chave = criarKey(10)
         try {
-        let response = axios.post(`http://localhost:8080/${chave}/${isValid}`,picture,{headers : {
-            'Content-Type' : 'multipart/form-data'
+        let response = axios.post('http://localhost:8080/',picture,{headers : {
+            'Content-Type' : 'multipart/form-data;'
             }
         }
         )
@@ -61,12 +41,9 @@ export default (args) => {
 
     return <div>
                 <Head show="Upload your picture"  firstButton="Home" secondButton="Validate" firstOn={firstClick} secondOn={secondClick}/>
-                <form >
+                <form>
                     <input className="button" type="file" id="myfile" onChange={enviarImagem} />
                     <img id='imagemPrevia'></img>
-                    <label>do you want upload a picture valid? check this checkbox</label>
-                    <input type="checkbox" onChange={setTrue}></input>
-
                     <h3>After you select the upload is done</h3>
                 </form>
             </div>

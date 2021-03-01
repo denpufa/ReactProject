@@ -7,10 +7,7 @@ import axios from 'axios'
 
 
 export default (args) => {
-    let history = useHistory()
-    
-    const [toSend,setToSend] = useState([])
-    
+    let history = useHistory()    
     function AllCards() {    
         const [date, setDate] = useState([])
         
@@ -18,15 +15,18 @@ export default (args) => {
             
             let response = axios.get('http://localhost:8080/img/false')
             response.then((dados) => {
-                console.log(dados.data)
-                    setDate(dados.data)
+                console.log(dados.data[0])
+                    setDate(dados.data[0])
             })           
         },[])
         return ( <> 
                 {date.map(i => 
                 <>
                 <Card key={i.link} src={i.link}></Card>
-                <input type="checkbox"  onChange={()=>{setToSend(toSend+[i.link])}}/>
+                <input type="checkbox"  onChange={()=>{
+                  let link = i.link
+                  let response = axios.post(`http://localhost:8080/valid/${link}`)
+                }}/>
                 </>
                 )}
                 </>
@@ -41,25 +41,11 @@ export default (args) => {
     function secondClick() {
         history.push("/upload")
     }
-    function validateImg() {
-        axios.post('http://localhost:8080/'
-            
-        )
 
-    }
-
-   
-    
-    
-
-    return <div className="validate">
-        <Head show="to validate a picture click on check box above,after click on finish button" firstOn={firstClick} firstButton="Home" secondButton="upload" secondOn={secondClick}></Head>
+   return <div className="validate">
+        <Head show="to validate a picture click on check box above" firstOn={firstClick} firstButton="Home" secondButton="upload" secondOn={secondClick}></Head>
         <div className="cards">
-            <form>
-                <button className="Button" onClick={validateImg}>Finish</button>
                 {AllCards()}
-            </form>
-
         </div>
     </div>
 }

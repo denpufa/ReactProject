@@ -27,7 +27,7 @@ export default (args) => {
             fileReader.readAsDataURL(file[0])
         }
         var picture = new FormData()
-        picture.append("image",picture)
+        picture.append("image",event.target.file[0])
         try {
         let response = axios.post('http://localhost:8080/',picture,{headers : {
             'Content-Type' : 'multipart/form-data;'
@@ -41,11 +41,9 @@ export default (args) => {
 
     return <div>
                 <Head show="Upload your picture"  firstButton="Home" secondButton="Validate" firstOn={firstClick} secondOn={secondClick}/>
-                <form>
                     <input className="button" type="file" id="myfile" onChange={enviarImagem} />
                     <img id='imagemPrevia'></img>
                     <h3>After you select the upload is done</h3>
-                </form>
             </div>
 
 

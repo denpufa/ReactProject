@@ -1,23 +1,25 @@
 import './app.css'
-import React, { createElement } from 'react'
+import React, { createElement, useState, useEffect } from 'react'
 import Card from './components/layout/cardPicture.jsx'
 import Head from './components/layout/header.jsx'
+import { useHistory } from 'react-router-dom'
 
-
-
-function allCards()
-{
-    var list = []
-    
-    for(var i=0;i<3;i++){
-    list.push(i)
-    }
-    return list.map(i =>
-        <Card key={i}></Card>
-        )
+let history = useHistory()    
+function AllCards() {    
+  const [date, setDate] = useState([])
+  useEffect(()=>{
+    let response = axios.get('http://localhost:8080/img/false')
+      response.then((dados) => {
+          console.log(dados.data[0])
+          setDate(dados.data[0])
+      })           
+    },[])
+    return ( <> 
+              {date.map(i => 
+              <Card key={i.link} src={i.link}></Card>)}
+                </>
+            );
 }
-
-
 export default (args) =>
     <div className="app">
         <Head show="Welcome to gallery :)"></Head>
